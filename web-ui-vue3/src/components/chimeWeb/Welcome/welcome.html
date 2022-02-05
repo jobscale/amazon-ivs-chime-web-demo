@@ -1,0 +1,45 @@
+<div id="vs-welcome" class="welcome form-grid">
+  <div class="welcome__intro">
+    <div class="intro__inner formatted-text">
+      <h1>Amazon IVS with ChimeSDK</h1>
+      <h3>
+        Create or join rooms, and watch Amazon IVS streams with anyone.
+      </h3>
+    </div>
+  </div>
+
+  <div class="welcome__content pd-4">
+    <div class="content__inner">
+      <h2 class="mg-b-2">Get started</h2>
+      <form action="">
+        <fieldset class="mg-b-2">
+          <input
+            class="mg-b-2"
+            type="text"
+            placeholder="Your name"
+            v-model="username"
+            ref="inputRef"
+          />
+          <input
+            type="text"
+            placeholder="Room name"
+            v-model="title"
+          />
+          <input
+            type="text"
+            placeholder="Playback URL"
+            v-model="playbackURL"
+          />
+          <button
+            class="mg-t-2 btn btn--primary"
+            :disabled="!username || !title || !playbackURL"
+            @click="handleCreateRoom"
+          >
+            Create room
+          </button>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
+<Error v-if="showError" :closeError="closeError" errorMsg="errorMsg" />

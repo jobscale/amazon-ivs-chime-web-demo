@@ -1,0 +1,29 @@
+<div id="vs-meeting">
+  <audio ref="audioElementRef" :style="{ display: 'none' }"></audio>
+
+  <div class="app-grid" @click="handleClick">
+    <div class="main-stage">
+      <div class="cams pos-relative">
+        <LocalVideo />
+        <RemoteVideoGroup />
+      </div>
+      <VideoPlayer
+        :setMetadataId="setMetadataId"
+        :videoStream="data.playbackURL"
+      />
+      <Controls
+        :openSettings="openSettings"
+        :myVideoElement="$refs.myVideoElement"
+      />
+    </div>
+    <Chat v-if="data.joinInfo"
+      :joinInfo="data.joinInfo"
+    />
+    <Settings v-if="showSettings"
+      :saveSettings="saveSettings"
+      :closeSettings="closeSettings"
+    />
+  </div>
+
+  <Error v-if="showError" :closeError="closeError" :errorMsg="errorMsg" />
+</div>
