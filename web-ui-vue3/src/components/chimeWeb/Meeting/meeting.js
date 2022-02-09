@@ -29,6 +29,7 @@ export default {
   },
   data() {
     return {
+      chime,
       meetingStatus: '',
       showSettings: false,
       showError: false,
@@ -61,7 +62,7 @@ export default {
     async start() {
       try {
         const { username, room, role } = this.data;
-        console.debug({ username, room, role });
+        logger.debug({ username, room, role });
 
         if (!this.data.joinInfo) {
           this.data.name = username;
@@ -89,7 +90,6 @@ export default {
 
         await chime.joinRoom(this.$refs.audioElementRef);
       } catch (e) {
-        // eslint-disable-next-line
         logger.debug('error', e.message);
         this.errorMsg = e.message;
         this.showError = true;
@@ -99,6 +99,31 @@ export default {
 
     closeError() {
       this.showError = false;
+    },
+
+    saveSettings(currentAudioInputDevice, currentAudioOutputDevice, currentVideoInputDevice) {
+      chime.chooseCurrentVideoInputDevice = currentVideoInputDevice;
+      chime.chooseCurrentAudioinputDevice = currentAudioInputDevice;
+      chime.chooseCurrentAudioOutputDevice = currentAudioOutputDevice;
+
+      this.showSettings = false;
+    },
+
+    handleClick(event) {
+      if (this.showSettings) {
+        let node = event.target;
+        let isModal = false;
+        while (node) {
+          if (node && node.classList && node.classList.contains('modal__el')) {
+            isModal = true;
+            break;
+          }
+          node = node.parentNode;
+        }
+        if (isModal) {
+          this.showSettings = false;
+        }
+      }
     },
 
     setMetadataId(metadataId) {

@@ -6,7 +6,7 @@ export default {
     handleHome(event) {
       event.preventDefault();
       event.stopPropagation();
-      window.location.href = `${BASE_HREF}`;
+      window.location.href = `${BASE_HREF}/`;
     },
   },
 };

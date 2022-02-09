@@ -1,1 +1,5 @@
-<div id="vs-remote-video-group"></div>
+<RemoteVideo
+  v-for="(attendee, index) in roster"
+  :key="index"
+  :attendee="attendee"
+/>

@@ -38,9 +38,9 @@
       ref="chatRef"
       type="text"
       placeholder="Say something"
-      v-bind="message"
+      v-model="message"
       maxLength="510"
-      v-on:keydown="handleKeyDown"
+      @keydown.enter="handleEnter"
     />
   </div>
 </div>

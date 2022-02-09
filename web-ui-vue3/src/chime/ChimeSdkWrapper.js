@@ -25,22 +25,22 @@ export default class ChimeSdkWrapper {
   }
 
   initializeSdkWrapper() {
-    this.meetingSession = null;
-    this.audioVideo = null;
-    this.title = null;
-    this.name = null;
-    this.region = null;
-    this.currentAudioInputDevice = null;
-    this.currentAudioOutputDevice = null;
-    this.currentVideoInputDevice = null;
+    this.meetingSession = undefined;
+    this.audioVideo = undefined;
+    this.title = undefined;
+    this.name = undefined;
+    this.region = undefined;
+    this.currentAudioInputDevice = undefined;
+    this.currentAudioOutputDevice = undefined;
+    this.currentVideoInputDevice = undefined;
     this.audioInputDevices = [];
     this.audioOutputDevices = [];
     this.videoInputDevices = [];
     this.devicesUpdatedCallbacks = [];
     this.roster = {};
     this.rosterUpdateCallbacks = [];
-    this.configuration = null;
-    this.messagingSocket = null;
+    this.configuration = undefined;
+    this.messagingSocket = undefined;
     this.messageUpdateCallbacks = [];
   }
 
@@ -384,9 +384,7 @@ export default class ChimeSdkWrapper {
       });
     });
     if (!hasCurrentDevice) {
-      this.currentAudioInputDevice = this.audioInputDevices.length > 0
-        ? this.audioInputDevices[0]
-        : null;
+      [this.currentAudioInputDevice] = this.audioInputDevices;
     }
     this.publishDevicesUpdated();
   }
@@ -407,9 +405,7 @@ export default class ChimeSdkWrapper {
       });
     });
     if (!hasCurrentDevice) {
-      this.currentAudioOutputDevice = this.audioOutputDevices.length > 0
-        ? this.audioOutputDevices[0]
-        : null;
+      [this.currentAudioOutputDevice] = this.audioOutputDevices;
     }
     this.publishDevicesUpdated();
   }
@@ -430,9 +426,7 @@ export default class ChimeSdkWrapper {
       });
     });
     if (!hasCurrentDevice) {
-      this.currentVideoInputDevice = this.videoInputDevices.length > 0
-        ? this.videoInputDevices[0]
-        : null;
+      [this.currentVideoInputDevice] = this.videoInputDevices;
     }
     this.publishDevicesUpdated();
   }

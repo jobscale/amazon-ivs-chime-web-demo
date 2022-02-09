@@ -1,11 +1,11 @@
 <div id="vs-meeting">
   <audio ref="audioElementRef" :style="{ display: 'none' }"></audio>
 
-  <div class="app-grid" @click="handleClick">
-    <div class="main-stage">
+  <div class="app-grid" @click.stop="handleClick">
+    <div v-if="chime.audioVideo" class="main-stage">
       <div class="cams pos-relative">
-        <LocalVideo />
-        <RemoteVideoGroup />
+        <LocalVideo :joinInfo="data.joinInfo" />
+        <RemoteVideoGroup  :joinInfo="data.joinInfo" />
       </div>
       <VideoPlayer
         :setMetadataId="setMetadataId"
@@ -17,9 +17,10 @@
       />
     </div>
     <Chat v-if="data.joinInfo"
-      :joinInfo="data.joinInfo"
+      :data="data"
     />
     <Settings v-if="showSettings"
+      :joinInfo="data.joinInfo"
       :saveSettings="saveSettings"
       :closeSettings="closeSettings"
     />

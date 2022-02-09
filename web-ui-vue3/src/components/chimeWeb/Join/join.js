@@ -1,5 +1,5 @@
 import { BASE_HREF } from '../../../config';
-import Error from '../Error/error';
+import Error from '../Error/errorView.vue';
 
 export default {
   name: 'Join',

@@ -6,19 +6,13 @@ import './chat.css';
 
 export default {
   name: 'Chat',
-  props: ['joinInfo'],
+  props: ['data'],
   data() {
     return {
       message: '',
       messages: [],
-      connection: null,
+      connection: undefined,
       showPopup: false,
-      data: {
-        playbackURL: undefined,
-        username: undefined,
-        title: undefined,
-        role: undefined,
-      },
     };
   },
   mounted() {
@@ -28,7 +22,7 @@ export default {
   },
   methods: {
     async initChatConnection() {
-      const { joinInfo } = this;
+      const { joinInfo } = this.data;
       const { Meeting, Attendee } = joinInfo;
       const queries = {
         MeetingId: Meeting.MeetingId,
@@ -45,50 +39,43 @@ export default {
         logger.debug('websocket is now open', event);
       };
 
-      connectionInit.addEventListener('message', event => {
+      this.recvMessage = this.recvMessage || (event => {
         const data = event.data.split('::');
         const username = data[0];
         const newMessage = data.slice(1).join('::'); // in case the message contains the separator '::'
 
-        this.messages = prevState => [...prevState, {
+        this.messages = [...this.messages, {
           timestamp: Date.now(),
           username,
           message: newMessage,
         }];
       });
+      connectionInit.removeEventListener('message', this.recvMessage);
+      connectionInit.addEventListener('message', this.recvMessage);
 
       this.connection = connectionInit;
-
-      return () => {
-        connectionInit.removeEventListener('message', () => {
-          logger.debug('Message event cancelled');
-        });
-      };
     },
 
     scrollToBottom() {
       this.$refs.messagesEndRef.scrollIntoView({ behavior: 'smooth' });
     },
 
-    handleKeyDown(event) {
-      if (event.keyCode === 13) {
-        // keyCode 13 is carriage return
-        const { username } = this;
-        if (this.message) {
-          const data = {
-            message: 'sendmessage',
-            data: `${username}::${this.message}`,
-          };
-          this.connection.send(JSON.stringify(data));
-          this.message = '';
-        }
+    handleEnter() {
+      const { username } = this.data;
+      if (this.message) {
+        const data = {
+          message: 'sendmessage',
+          data: `${username}::${this.message}`,
+        };
+        this.connection.send(JSON.stringify(data));
+        this.message = '';
       }
     },
 
     handleRoomClick(event) {
       event.stopPropagation();
       event.preventDefault();
-      const title = this.joinInfo.Title;
+      const title = this.data.joinInfo.Title;
       const link = `${window.location.origin}${window.location.pathname.replace(
         'meeting',
         'join',

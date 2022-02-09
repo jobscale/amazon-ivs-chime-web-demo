@@ -1,5 +1,5 @@
 import { BASE_HREF, DEFAULT_VIDEO_STREAM } from '../../../config';
-import Error from '../Error/error';
+import Error from '../Error/errorView.vue';
 import { chime } from '../../../chime/ChimeSdkWrapper';
 
 export default {
