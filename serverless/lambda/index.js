@@ -447,6 +447,13 @@ exports.join = async(event, context, callback) => {
       ExternalUserId: uuid(),
     }).promise());
 
+    if (!attendeeInfo) {
+      response.statusCode = 404;
+      response.body = "attendeeInfo not found";
+      callback(null, response);
+      return;
+    }
+
   console.info("join event > attendeeInfo:", JSON.stringify(attendeeInfo, null, 2));
 
   putAttendee(title, attendeeInfo.Attendee.AttendeeId, name);
