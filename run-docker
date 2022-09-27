@@ -1,0 +1,3 @@
+docker run --name vue3 -v $(pwd):/home/node/vue3 -it ghcr.io/jobscale/node-aws
+docker start vue3
+echo docker exec -it vue3 bash
